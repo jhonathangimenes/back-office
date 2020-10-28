@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use \App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,8 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+Route::get('list-message', [MessageController::class, 'index']);
+Route::get('create-message', [MessageController::class, 'create']);
+Route::get('edit-message/{id}', [MessageController::class, 'edit']);
+Route::post('message', [MessageController::class, 'store']);
