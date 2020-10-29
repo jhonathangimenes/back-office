@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
-    public function index() {
-        return view('message.list', ['messages' => Message::all()]);
+    public function index()
+    {
+        return view('message.list', ['messages' => Message::list()]);
     }
 
-    public function create() {
-        return view('message.create', ['typeForm' => 'create']);
+    public function create()
+    {
+        return view('message.form', ['typeForm' => 'create']);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
 
         $data = [
             'subject' => $request->input('subject'),
@@ -27,10 +30,37 @@ class MessageController extends Controller
 
         Message::create($data);
 
-        return redirect('list-message');
+        return redirect()->route('message.index')->with('success', 'Message created success!');
     }
 
-    public function edit($id) {
-        return view('message.create', ['message' => Message::find($id), 'typeForm' => 'edit']);
+    public function show($id) {
+        return view('message.form', ['message' => Message::find($id), 'typeForm' => 'show']);
+    }
+    
+    public function edit($id)
+    {
+        return view('message.form', ['message' => Message::find($id), 'typeForm' => 'edit']);
+    }
+
+    public function update(Request $request, $id)
+    {
+
+        $data = [
+            'subject' => $request->input('subject'),
+            'content' => $request->input('content'),
+            'start_date' => $request->input('startDate'),
+            'expiration_date' => $request->input('expirationDate'),
+        ];
+
+        Message::alter($data, $id);
+
+        return redirect()->route('message.index')->with('success', 'Message update success!');
+    }
+
+    public function destroy($id)
+    {
+        Message::disable($id);
+
+        return redirect()->route('message.index')->with('success', 'Message deleted success!');
     }
 }

@@ -8,8 +8,13 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-5">
+                @if ($message = Session::get('success'))
+                    <div class="alert alert-success">
+                        <p>{{ $message }}</p>
+                    </div>
+                @endif
                 <div class="text-right">
-                    <a href="/create-message" class="btn btn-primary mb-3">Create Message</a>
+                    <a href="{{ route('message.create') }}" class="btn btn-primary mb-3">Create Message</a>
                 </div>
                 <table class="table">
                     <thead>
@@ -17,7 +22,7 @@
                             <th scope="col">Start date</th>
                             <th scope="col">Expiration date</th>
                             <th scope="col">Subject</th>
-                            <th class="text-center" scope="col">Actions</th>
+                            <th scope="col" class="text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -26,10 +31,14 @@
                             <td>{{ date_format(date_create($message->start_date),"d/m/Y") }}</td>
                             <td>{{ date_format(date_create($message->expiration_date),"d/m/Y") }}</td>
                             <td>{{ $message->subject  }}</td>
-                            <td class="text-center">
-                                <a href="#" class="btn btn-primary">View</a>
-                                <a href="/edit-message/{{ $message->id }}" class="btn btn-success">Edit</a>
-                                <a href="#" class="btn btn-danger">Cancel</a>
+                            <td>
+                                <form action="{{ route('message.destroy', $message->id) }}" method="POST" class="text-center">
+                                <a href="{{ route('message.show', $message->id) }}" class="btn btn-primary mr-2">View</a>
+                                <a href="{{ route('message.edit', $message->id) }}" class="btn btn-success mr-2">Edit</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">Cancel</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
