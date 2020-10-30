@@ -19,6 +19,9 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
+        if(!Message::validated($request)) {
+            return redirect()->back();
+        }
 
         $data = [
             'subject' => $request->input('subject'),
@@ -44,6 +47,9 @@ class MessageController extends Controller
 
     public function update(Request $request, $id)
     {
+        if(!Message::validated($request)) {
+            return redirect()->back();
+        }
 
         $data = [
             'subject' => $request->input('subject'),

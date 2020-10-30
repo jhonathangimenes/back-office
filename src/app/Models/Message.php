@@ -44,4 +44,16 @@ class Message extends Model
 
         return $message;
     }
+
+    static function validated($request) {
+
+        $validatedData = $request->validate([
+            'subject' => 'required',
+            'content' => 'required',
+            'startDate' => 'required|date',
+            'expirationDate' => 'required|date|after:startDate',
+        ]);
+
+        return $validatedData;
+    }
 }

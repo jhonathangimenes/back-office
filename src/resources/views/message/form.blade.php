@@ -18,26 +18,38 @@
                     @csrf
                     <div class="form-group">
                         <label for="subject">Subject</label>
-                        <input type="text" class="form-control" id="subject" name="subject"
-                               value="{{ $typeForm == 'edit' || $typeForm == 'show' ? $message->subject : '' }}">
+                        <input type="text" class="form-control @error('subject') is-invalid @enderror" id="subject" name="subject"
+                               value="{{ $typeForm == 'edit' || $typeForm == 'show' ? (old('subject') ? old('subject') : $message->subject) : ($typeForm == 'create' ? old('subject') : '') }}">
+                        @if($errors->first('subject'))
+                            <p style="color:red">{{ $errors->first('subject') }}</p>
+                        @endif
                     </div>
                     <div class="form-group">
                         <label for="content">Content</label>
-                        <textarea class="form-control" id="content" name="content">{{ $typeForm == 'edit' || $typeForm == 'show' ? $message->content : '' }}</textarea>
+                        <textarea class="form-control @error('content') is-invalid @enderror" id="content" name="content">{{ $typeForm == 'edit' || $typeForm == 'show' ? (old('content') ? old('content') : $message->content) : ($typeForm == 'create' ? old('content') : '') }}</textarea>
+                        @if($errors->first('content'))
+                            <p style="color:red">{{ $errors->first('content') }}</p>
+                        @endif
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="startDate">Start date</label>
-                                <input type="date" class="form-control" id="startDate" name="startDate"
-                                       value="{{ $typeForm == 'edit' || $typeForm == 'show' ? $message->start_date : '' }}">
+                                <input type="date" class="form-control @error('startDate') is-invalid @enderror" id="startDate" name="startDate"
+                                       value="{{ $typeForm == 'edit' || $typeForm == 'show' ? (old('startDate') ? old('startDate') : $message->start_date) : ($typeForm == 'create' ? old('startDate') : '') }}">
+                                @if($errors->first('startDate'))
+                                    <p style="color:red">{{ $errors->first('startDate') }}</p>
+                                @endif
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="expirationDate">Expiration date</label>
-                                <input type="date" class="form-control" id="expirationDate" name="expirationDate"
-                                       value="{{ $typeForm == 'edit' || $typeForm == 'show' ? $message->expiration_date : '' }}">
+                                <input type="date" class="form-control @error('expirationDate') is-invalid @enderror" id="expirationDate" name="expirationDate"
+                                       value="{{ $typeForm == 'edit' || $typeForm == 'show' ? (old('expirationDate') ? old('expirationDate') : $message->expiration_date) : ($typeForm == 'create' ? old('expirationDate') : '') }}">
+                                @if($errors->first('expirationDate'))
+                                    <p style="color:red">{{ $errors->first('expirationDate') }}</p>
+                                @endif
                             </div>
                         </div>
                     </div>
